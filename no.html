@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Wrong Choice…</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
+      background:
+        radial-gradient(circle at top, #2a0f1c, #050005 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #e5c6d3;
+      overflow: hidden;
+    }
+
+    /* dark vignette */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.85));
+      pointer-events: none;
+    }
+
+    .card {
+      position: relative;
+      background: rgba(20, 5, 12, 0.85);
+      padding: 48px 44px;
+      border-radius: 20px;
+      box-shadow:
+        0 0 60px rgba(179,15,74,0.35),
+        0 30px 80px rgba(0,0,0,0.8);
+      max-width: 520px;
+      animation: fadeIn 1.2s ease;
+      border: 1px solid rgba(255,90,140,0.15);
+    }
+
+    h1 {
+      margin: 0 0 28px;
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      color: #ff9bbd;
+      text-shadow: 0 0 10px rgba(255,100,150,0.3);
+      line-height: 1.4;
+    }
+
+    button {
+      padding: 16px 36px;
+      font-size: 18px;
+      font-weight: 700;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      background: linear-gradient(180deg, #ff3b7a, #9e0038);
+      color: white;
+      box-shadow:
+        0 0 20px rgba(255,59,122,0.6),
+        0 10px 30px rgba(0,0,0,0.6);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.07);
+      box-shadow:
+        0 0 35px rgba(255,59,122,0.9),
+        0 14px 40px rgba(0,0,0,0.8);
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* Creepy red eyes */
+    .eyes-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    }
+
+    .eyes {
+    position: absolute;
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    animation: eyesFade 4s ease-in-out forwards;
+    }
+
+    .eye {
+    width: 14px;
+    height: 10px;
+    background: radial-gradient(circle at center, #ff4b4b, #900);
+    border-radius: 50%;
+    box-shadow:
+        0 0 10px rgba(255,0,0,0.8),
+        0 0 20px rgba(255,0,0,0.6);
+    }
+
+    @keyframes eyesFade {
+    0%   { opacity: 0; }
+    20%  { opacity: 1; }
+    70%  { opacity: 1; }
+    100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+<div class="eyes-layer" aria-hidden="true"></div>
+  <div class="card">
+    <h1>
+      Nice try, spaghetti guy.<br>
+      You only have <em>one</em> right answer.
+    </h1>
+
+    <button onclick="window.location.href='yes.html'">
+      Yes
+    </button>
+  </div>
+  <script>
+  const eyesLayer = document.querySelector('.eyes-layer');
+
+  function spawnEyes() {
+    const eyes = document.createElement('div');
+    eyes.className = 'eyes';
+
+    const leftEye = document.createElement('div');
+    leftEye.className = 'eye';
+
+    const rightEye = document.createElement('div');
+    rightEye.className = 'eye';
+
+    eyes.appendChild(leftEye);
+    eyes.appendChild(rightEye);
+
+    // random position
+    eyes.style.top = Math.random() * 80 + 'vh';
+    eyes.style.left = Math.random() * 80 + 'vw';
+
+    // random scale (distance illusion)
+    const scale = Math.random() * 0.6 + 0.6;
+    eyes.style.transform = `scale(${scale})`;
+
+    eyesLayer.appendChild(eyes);
+
+    // remove after animation
+    setTimeout(() => {
+      eyes.remove();
+    }, 4000);
+  }
+
+  // spawn eyes occasionally
+  setInterval(spawnEyes, 1000);
+</script>
+
+</body>
+</html>

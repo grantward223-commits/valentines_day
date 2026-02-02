@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Will you be my Valentine?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    /* Reset + sensible defaults */
+    *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:Montserrat,system-ui,-apple-system,"Segoe UI",Roboto,'Helvetica Neue',Arial;color:#2b0a2b}
+
+    /* Background: soft pink gradient + subtle hearts pattern made with radial-gradients */
+    body{
+      background: linear-gradient(180deg,#ffd6e6 0%, #fff6fb 50%, #ffe9f7 100%);
+      display:flex;align-items:center;justify-content:center;padding:32px;
+      background-attachment:fixed;
+    }
+
+    /* A decorative full-screen layer with translucent floating hearts */
+    .hearts {
+      position:fixed;inset:0;pointer-events:none;z-index:0;opacity:0.35;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,90,135,0.14) 0 10px, transparent 11px),
+        radial-gradient(circle at 80% 10%, rgba(255,135,180,0.12) 0 12px, transparent 13px),
+        radial-gradient(circle at 30% 80%, rgba(255,120,160,0.10) 0 9px, transparent 10px);
+      background-size: 1200px 800px, 900px 600px, 700px 500px;
+      mix-blend-mode:screen;filter:blur(6px);
+    }
+
+    /* Main card */
+    .card{
+      position:relative;z-index:1;max-width:560px;width:100%;text-align:center;padding:48px;border-radius:20px;
+      box-shadow:0 10px 30px rgba(43,10,43,0.12);background:linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,248,252,0.85));
+      border:1px solid rgba(255,200,220,0.6);
+    }
+
+    .title{
+      font-family:'Great Vibes',cursive;font-size:48px;margin:0 0 8px;line-height:1;color:#b30f4a;text-shadow:0 2px 0 rgba(255,255,255,0.6);
+    }
+
+    .question{
+      font-weight:700;font-size:20px;margin:0 0 24px;color:#4a122b;letter-spacing:0.4px
+    }
+
+    /* Buttons row */
+    .actions{display:flex;gap:18px;justify-content:center;align-items:center}
+    button{
+      -webkit-appearance:none;appearance:none;border:0;cursor:pointer;padding:14px 28px;border-radius:12px;font-weight:700;font-size:18px;
+      transition:transform .18s ease, box-shadow .18s ease, opacity .12s ease;box-shadow:0 6px 18px rgba(179,15,74,0.12);
+    }
+
+    button:focus{outline:3px solid rgba(179,15,74,0.16);outline-offset:3px}
+
+    .yes{
+      background:linear-gradient(180deg,#ff6fa3,#ff3b7a);color:white;box-shadow:0 10px 30px rgba(255,59,122,0.18);
+    }
+    .yes:hover{transform:translateY(-4px) scale(1.02)}
+
+    .no{
+      background:transparent;border:2px solid rgba(183,11,62,0.12);color:#b30f4a;backdrop-filter:blur(4px)
+    }
+    .no:hover{transform:translateY(-2px) rotate(-2deg)}
+
+    /* Small hearts around the yes button when clicked (starts hidden) */
+    .heart-burst{position:absolute;inset:0;pointer-events:none;z-index:2}
+    .heart{position:absolute;width:18px;height:18px;transform:translate(-50%,-50%) rotate(45deg);background:#ff5c95;border-radius:4px}
+    .heart:before,.heart:after{content:'';position:absolute;background:#ff5c95;border-radius:50%;width:18px;height:18px}
+    .heart:before{top:-9px;left:0}
+    .heart:after{left:9px;top:0}
+
+    /* Responsive tweaks */
+    @media (max-width:480px){
+      .title{font-size:36px}
+      .card{padding:32px}
+      button{padding:12px 18px;font-size:16px}
+    }
+
+    /* Tiny flourish under the card */
+    .footer-note{margin-top:18px;font-size:13px;color:#8b3a56}
+
+    /* Heart frame around the screen */
+    .heart-frame {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    }
+
+    .frame-heart {
+    position: absolute;
+    font-size: 26px;
+    opacity: 0.45;
+    animation: float 6s ease-in-out infinite;
+    }
+
+    /* Positions around edges */
+    .frame-heart.top-left { top: 20px; left: 20px; }
+    .frame-heart.top-right { top: 20px; right: 20px; }
+    .frame-heart.bottom-left { bottom: 20px; left: 20px; }
+    .frame-heart.bottom-right { bottom: 20px; right: 20px; }
+
+    .frame-heart.left-1 { top: 35%; left: 10px; }
+    .frame-heart.left-2 { top: 60%; left: 25px; }
+
+    .frame-heart.right-1 { top: 40%; right: 10px; }
+    .frame-heart.right-2 { top: 65%; right: 25px; }
+
+    .frame-heart.top-1 { top: 10px; left: 40%; }
+    .frame-heart.top-2 { top: 10px; left: 60%; }
+
+    .frame-heart.bottom-1 { bottom: 10px; left: 45%; }
+    .frame-heart.bottom-2 { bottom: 10px; left: 65%; }
+
+    /* Gentle floating animation */
+    @keyframes float {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="hearts" aria-hidden="true"></div>
+
+  <main class="card" role="main" aria-labelledby="q">
+    <h1 class="title">Will you be my cutie patootie Valentine?</h1>
+
+    <div class="actions" role="group" aria-label="Answer choices">
+      <button class="yes" id="yesBtn" aria-haspopup="dialog" aria-controls="response">Yes</button>
+      <button class="no" id="noBtn">No</button>
+    </div>
+
+    <div id="response" aria-live="polite"></div>
+
+    <!-- hearts container used by JS for simple animation -->
+    <div class="heart-burst" id="burst"></div>
+  </main>
+
+  <script>
+    // Navigate to different pages instead of inline responses
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+
+    yesBtn.addEventListener('click', () => {
+      window.location.href = 'yes.html';
+    });
+
+    noBtn.addEventListener('click', () => {
+      window.location.href = 'no.html';
+    });
+  </script>
+</body>
+<!-- Heart frame around the screen -->
+<div class="heart-frame" aria-hidden="true">
+  <div class="frame-heart top-left">💖</div>
+  <div class="frame-heart top-right">💘</div>
+  <div class="frame-heart bottom-left">💕</div>
+  <div class="frame-heart bottom-right">💞</div>
+
+  <div class="frame-heart left-1">💗</div>
+  <div class="frame-heart left-2">💓</div>
+
+  <div class="frame-heart right-1">💖</div>
+  <div class="frame-heart right-2">💘</div>
+
+  <div class="frame-heart top-1">💞</div>
+  <div class="frame-heart top-2">💗</div>
+
+  <div class="frame-heart bottom-1">💕</div>
+  <div class="frame-heart bottom-2">💓</div>
+</div>
+</html>
